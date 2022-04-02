@@ -3,26 +3,28 @@ import models.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import service.IClientService;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-
-@Controller(value = "ctrl1")
+@RestController
+@RequestMapping("/client")
 public class ClientController {
     @Autowired
     private IClientService service;
-    public Client save(Client clt) {
+    @GetMapping("/{id}")
+    public Client getOne(@PathVariable("id") long id){
+        return service.getOne(id);
+    }
+    @GetMapping("/all")
+    public List<Client> getAll(){
+        return service.getAll();
+    }
+    @PostMapping("/create")
+    public Client save(@RequestBody Client clt) {
         return service.save(clt);
     }
-    public Client modify(Client clt) {
+    @PutMapping("/update")
+    public Client modify(@RequestBody Client clt){
         return service.modify(clt);
-    }
-    public void remove(long idClt) {
-        service.remove(idClt);
-    }
-    public Client getOne(long idClt) {
-        return service.getOne(idClt);
-    }
-    public List<Client> getAll() {
-        return service.getAll();
     }
 }
